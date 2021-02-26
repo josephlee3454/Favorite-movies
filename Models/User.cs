@@ -48,10 +48,10 @@ namespace favoriteMovies.Models
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 
-        public List<Movie> PostedMovies {get;set;}
+        public List<Event> PostedMovies {get;set;}
 
 
-        public List<Like> Likes {get;set;}
+        public List<Like>  Atendees {get;set;}
 
         
 

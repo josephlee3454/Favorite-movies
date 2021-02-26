@@ -8,50 +8,53 @@
 
 
 
-<a href="/movies/new">Add new!</a>
+<a href="/events/new">Add new!</a>
 
 <h1>1</h1>
 <table class="table table-success table-striped">
   <tr>
     <th>Title</th>
-    <th>Release</th>
-    <th>Starring</th>
-    <th>Posted By</th>
-    <th>Likes</th>
+    <th>Date And Time</th>
+    <th>Duration</th>
+    <th>Cordinated By</th>
+    <th>Participants</th>
     <th>Actions</th> 
   </tr>
-  @foreach (Movie movie in ViewBag.AllMovies)
+  @foreach (Event item in ViewBag.AllEvents)
   {
    <tr>
-       <td><a href="/movies/@movie.MovieId">@movie.Title</a></td>
-       <td>@movie.ReleaseDate.ToString("d")</td>
-       <td>@movie.Starring</td>
-       <td>@movie.PostedBy.FirstName</td>
-       <td>@movie.Likes.Count</td>
+       @* <td><a href="/movies/@movie.MovieId">@item.Activity</a></td> *@
+       <td>@item.Date.ToString("d")</td>
+       <td><a href="/events/@item.EventId" >@item.Title</a></td>
+       <td>@item.Duration</td>
+       <td>@item.PostedBy</td>
+       <td>@item.Likes.Count</td>
+    
        <td>
-           @if(ViewBag.CurrentUser.UserId==movie.PostedBy.UserId)
+           @if(ViewBag.CurrentUser.UserId==item.PostedBy.UserId)
            {
-               <form action="/movies/@movie.MovieId/delete" method="post">
+               <form action="/events/@item.EventId/delete" method="post">
                <button class="btn btn-warning">Delete</button>
                </form>
+
            }
-           else if(movie.Likes.Any(like => like.UserId == ViewBag.CurrentUser.UserId))
+           else if(item.Likes.Any(A => A.UserId == ViewBag.CurrentUser.UserId))
            {
-               <form action="/movies/@movie.MovieId/likes/delete" method="post">
-                <button class="btn btn-warning">Unlike</button>
+               <form action="/events/@item.EventId/likes/delete" method="post">
+                <button class="btn btn-warning">UnAttend</button>
                </form>
            }
 
            else
            {
-               <form action="/movies/@movie.MovieId/likes" method="post">
-                <button class="btn btn-warning">Like</button>
+               <form action="/events/@item.EventId/likes" method="post">
+                <button class="btn btn-warning">Attend</button>
                </form>
-           }
+           } 
 
            
 
        </td>
    </tr>   
   }
-</table>
+</table> 

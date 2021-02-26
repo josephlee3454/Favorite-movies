@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace favoriteMovies.Models
 {
 
-    public class Like
+     public class Like
     {
         [Key]
         public int LikeId {get; set;}
@@ -18,9 +18,9 @@ namespace favoriteMovies.Models
 
         public User UserWhoLikes {get;set;} //reference the actual object
 
-        public int MovieId{get;set;}// conects us to one movie 
+        public int EventId{get;set;}// conects us to one movie 
 
-         public Movie LikedMovie {get;set;} //reference the actual object
+         public Event LikedEvent {get;set;} //reference the actual object
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

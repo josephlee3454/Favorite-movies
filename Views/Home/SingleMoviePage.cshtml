@@ -1,8 +1,7 @@
-@* @model Movie *@
 @{
-    Movie movie = ViewBag.Movie;
+    Event Event = ViewBag.Event;
 }
-<div>
+@model Event 
 <p>hi @ViewBag.CurrentUser.FirstName</p>
 
 
@@ -12,46 +11,48 @@
 
 <a href="/logout">Log Out</a>
 
-<h1>@ViewBag.Movie.Title</h1>
+<h1>Title: @ViewBag.Event.Title</h1>
 
-<img src="@ViewBag.Movie.ImageUrl" alt="@ViewBag.Movie.Title">
+<h1>Description: @ViewBag.Description</h1>
 
-<p>Starring: @ViewBag.Movie.Starring</p>
-<p>Release Date: @ViewBag.Movie.ReleaseDate.ToString("d")</p>
+<h1>@ViewBag.Event.Duration Hours</h1>
 
-<p>Posted By: @ViewBag.Movie.PostedBy.FirstName</p>
+<h1>@ViewBag.Event.Time O-clock</h1>
 
-<h3>Fans</h3>
-<ul>
-    @foreach(var like in ViewBag.Movie.Likes)
-    {
-        <li ><a href="/users/@like.UserWhoLikes.UserId">@like.UserWhoLikes.FirstName</li>
-    }
-</ul>
 
+
+<h3>
+    Participants
+</h3>
+@foreach (var like in ViewBag.Event.Likes)
+{
+    <ul>
+        <li>@like.UserWhoLikes.FirstName </li>
+    </ul>
     
-       @if(ViewBag.CurrentUser.UserId==movie.PostedBy.UserId)
+}
+
+       @if(ViewBag.CurrentUser.UserId==Event.PostedBy.UserId)
            {
-               <form action="/movies/@movie.MovieId/delete" method="post">
+               <form action="/events/@Event.EventId/delete" method="post">
                <button class="btn btn-warning">Delete</button>
                </form>
            }
-           else if(movie.Likes.Any(like => like.UserId == ViewBag.CurrentUser.UserId))
+           else if(Event.Likes.Any(like => like.UserId == ViewBag.CurrentUser.UserId))
            {
-               <form action="/movies/@movie.MovieId/likes/delete" method="post">
+               <form action="/events/@Event.EventId/likes/delete" method="post">
                 <button class="btn btn-warning">Unlike</button>
                </form>
            }
-
+           
+           
            else
            {
-               <form action="/movies/@movie.MovieId/likes" method="post">
+               <form action="/events/@Event.EventId/likes" method="post">
                 <button class="btn btn-warning">Like</button>
                </form>
-           }
+           } 
 
-
-    
 
            
 

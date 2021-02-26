@@ -1,5 +1,5 @@
 <h1>Post a Movie</h1>
-<p>hi @ViewBag.CurrentUser.FirstName</p>
+@* <p>hi @ViewBag.CurrentUser.FirstName</p> *@
 
 
 
@@ -8,36 +8,44 @@
 
 <a href="/logout">Log Out</a>
 
-@model Movie
-<form action="/movies" method="post">
+@model Event
+<form action="/events" method="post">
 
 
-    <div class="form-grouo">
+    <div class="form-group">
 
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control">
         <span asp-validation-for="Title" class="text-danger"></span>
 
     </div>
-    <div class="form-grouo">
+    <div class="form-group">
 
-        <label asp-for="Starring"></label>
-        <input asp-for="Starring" class="form-control">
-        <span asp-validation-for="Starring" class="text-danger"></span>
-
-    </div>
-    <div class="form-grouo">
-
-        <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control">
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        <label asp-for="Time"></label>
+        <input asp-for="Time" class="form-control">
+        <span asp-validation-for="Time" class="text-danger"></span>
 
     </div>
-    <div class="form-grouo">
+    <div class="form-group">
 
-        <label asp-for="ReleaseDate"></label>
-        <input asp-for="ReleaseDate" class="form-control">
-        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+        <label asp-for="Date"></label>
+        <input asp-for="Date" class="form-control" >
+        <span asp-validation-for="Date" class="text-danger"></span>
+
+    </div>
+
+     <div class="form-group">
+
+        <label asp-for="Duration"></label>
+        <input asp-for="Duration" class="form-control">
+        <span asp-validation-for="Duration" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
 
     </div>
     <button class="btn btn-primary">Submit</button>

@@ -1,5 +1,4 @@
-﻿
-using System.Transactions;
+﻿using System.Transactions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -142,10 +141,9 @@ namespace favoriteMovies.Controllers
             ViewBag.CurrentUser = currentUser;
 
 
-            ViewBag.AllMovies = _context
-                .Movies.Include(movies => movies.PostedBy)
-                .Include(movie => movie.Likes)
-                .OrderByDescending(movie => movie.Likes.Count);
+            ViewBag.AllEvents = _context
+                .Events.Include(items => items.PostedBy)
+                .Include(item => item.Likes);
 
 
 
@@ -157,12 +155,15 @@ namespace favoriteMovies.Controllers
 
 
 
-        [HttpPost("movies/{movieId}/delete")]
-        public IActionResult DeleteMovie(int movieId)
+        [HttpPost("events/{eventId}/delete")]
+        public IActionResult DeleteEvent(int eventId)
         {
+
+            
+
             var movieToDelete = _context
-                .Movies
-                .First(m => m.MovieId == movieId);
+                .Events
+                .First(m => m.EventId == eventId);
             _context.Remove(movieToDelete);
             _context.SaveChanges();
 
@@ -171,13 +172,13 @@ namespace favoriteMovies.Controllers
         }
 
 
-        [HttpPost("movies/{movieId}/likes/delete")]
-        public IActionResult DeleteLike(int movieId)
+          [HttpPost("events/{eventId}/likes/delete")]
+        public IActionResult DeleteLike(int eventId)
         {
             var currentUser = GetCurrentUser();
 
 
-            var likeToDelete = _context.Likes.First(like=>like.MovieId == movieId && like.UserId == currentUser.UserId);
+            var likeToDelete = _context.Likes.First(like=>like.EventId == eventId && like.UserId == currentUser.UserId);
 
 
             _context.Remove(likeToDelete);
@@ -188,12 +189,13 @@ namespace favoriteMovies.Controllers
         }
 
 
-        [HttpPost("movies/{movieId}/likes")]
-        public IActionResult AddLike(int movieId)
+
+       [HttpPost("events/{eventId}/likes")]
+        public IActionResult AddLike(int eventId)
         {
             var likeToAdd = new Like {
                 UserId = GetCurrentUser().UserId,
-                MovieId = movieId
+                EventId = eventId
             };
 
             _context.Add(likeToAdd);
@@ -203,7 +205,7 @@ namespace favoriteMovies.Controllers
         }
 
 
-        [HttpGet("movies/new")]
+        [HttpGet("events/new")]
         public IActionResult NewMoviePage()
         {
             var currentUser = GetCurrentUser();
@@ -217,9 +219,9 @@ namespace favoriteMovies.Controllers
             return View();
         }
 
-        [HttpPost("movies")]
-        public IActionResult CreateMovie(Movie movieFromForm)
-        {   if(movieFromForm.ReleaseDate > DateTime.Now)
+        [HttpPost("events")]
+        public IActionResult CreateMovie(Event eventFromForm)
+        {   if(eventFromForm.Date > DateTime.Now)
 
             {
                 ModelState.AddModelError("ReleaseDate", "Please ensure that the date is in the past!");
@@ -229,12 +231,12 @@ namespace favoriteMovies.Controllers
 
             if(ModelState.IsValid)
             {
-                movieFromForm.UserId = (int)HttpContext.Session.GetInt32("UserId");                
-                _context.Add(movieFromForm);
+                eventFromForm.UserId = (int)HttpContext.Session.GetInt32("UserId");                
+                _context.Add(eventFromForm);
                 _context.SaveChanges();
 
 
-                return Redirect($"/movies/{movieFromForm.MovieId}");
+                return Redirect($"/events/{eventFromForm.EventId}");
             }
 
             return View("NewMoviePage");
@@ -242,9 +244,9 @@ namespace favoriteMovies.Controllers
         }
 
 
-        [HttpGet("movies/{movieId}")]
+        [HttpGet("events/{eventId}")]
 
-        public IActionResult SingleMoviePage(int movieId)
+        public IActionResult SingleMoviePage(int eventId)
         {
             var currentUser = GetCurrentUser();
 
@@ -254,13 +256,13 @@ namespace favoriteMovies.Controllers
             }
 
 
-            //////////
-            ViewBag.Movie = _context
-                .Movies
-                .Include(m => m.PostedBy)
-                .Include(m => m.Likes)// pull all the likes
+            ////////
+            ViewBag.Event = _context
+                .Events
+                .Include(e => e.PostedBy)
+                .Include(e => e.Likes)// pull all the likes
                     .ThenInclude(like => like.UserWhoLikes)//within each
-                .First(m => m.MovieId == movieId);
+                .First(e => e.EventId == eventId);
 
                 ViewBag.CurrentUser = currentUser;
 

@@ -17,52 +17,27 @@ namespace favoriteMovies.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("favoriteMovies.Models.Like", b =>
+            modelBuilder.Entity("favoriteMovies.Models.Event", b =>
                 {
-                    b.Property<int>("LikeId")
+                    b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LikeId");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Likes");
-                });
-
-            modelBuilder.Entity("favoriteMovies.Models.Movie", b =>
-                {
-                    b.Property<int>("MovieId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Starring")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time(6)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -74,11 +49,38 @@ namespace favoriteMovies.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("MovieId");
+                    b.HasKey("EventId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("favoriteMovies.Models.Like", b =>
+                {
+                    b.Property<int>("LikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LikeId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("favoriteMovies.Models.User", b =>
@@ -114,25 +116,25 @@ namespace favoriteMovies.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("favoriteMovies.Models.Like", b =>
+            modelBuilder.Entity("favoriteMovies.Models.Event", b =>
                 {
-                    b.HasOne("favoriteMovies.Models.Movie", "LikedMovie")
-                        .WithMany("Likes")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("favoriteMovies.Models.User", "UserWhoLikes")
-                        .WithMany("Likes")
+                    b.HasOne("favoriteMovies.Models.User", "PostedBy")
+                        .WithMany("PostedMovies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("favoriteMovies.Models.Movie", b =>
+            modelBuilder.Entity("favoriteMovies.Models.Like", b =>
                 {
-                    b.HasOne("favoriteMovies.Models.User", "PostedBy")
-                        .WithMany("PostedMovies")
+                    b.HasOne("favoriteMovies.Models.Event", "LikedEvent")
+                        .WithMany("Likes")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("favoriteMovies.Models.User", "UserWhoLikes")
+                        .WithMany("Atendees")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

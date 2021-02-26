@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace favoriteMovies.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class fir : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace favoriteMovies.Migrations
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
@@ -26,28 +27,29 @@ namespace favoriteMovies.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movies",
+                name: "Events",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(nullable: false)
+                    EventId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: true),
-                    Starring = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Duration = table.Column<int>(nullable: false),
+                    Time = table.Column<TimeSpan>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.MovieId);
+                    table.PrimaryKey("PK_Events", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK_Movies_Users_UserId",
+                        name: "FK_Events_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +59,7 @@ namespace favoriteMovies.Migrations
                     LikeId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
-                    MovieId = table.Column<int>(nullable: false),
+                    EventId = table.Column<int>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false)
                 },
@@ -65,10 +67,10 @@ namespace favoriteMovies.Migrations
                 {
                     table.PrimaryKey("PK_Likes", x => x.LikeId);
                     table.ForeignKey(
-                        name: "FK_Likes_Movies_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movies",
-                        principalColumn: "MovieId",
+                        name: "FK_Likes_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Likes_Users_UserId",
@@ -79,18 +81,18 @@ namespace favoriteMovies.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_MovieId",
+                name: "IX_Events_UserId",
+                table: "Events",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_EventId",
                 table: "Likes",
-                column: "MovieId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_UserId",
                 table: "Likes",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Movies_UserId",
-                table: "Movies",
                 column: "UserId");
         }
 
@@ -100,7 +102,7 @@ namespace favoriteMovies.Migrations
                 name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Users");
