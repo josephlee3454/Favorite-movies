@@ -1,0 +1,46 @@
+<h1>Post a Movie</h1>
+<p>hi @ViewBag.CurrentUser.FirstName</p>
+
+
+
+<a href="/dashboard">Dashboard</a>
+
+
+<a href="/logout">Log Out</a>
+
+@model Movie
+<form action="/movies" method="post">
+
+
+    <div class="form-grouo">
+
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control">
+        <span asp-validation-for="Title" class="text-danger"></span>
+
+    </div>
+    <div class="form-grouo">
+
+        <label asp-for="Starring"></label>
+        <input asp-for="Starring" class="form-control">
+        <span asp-validation-for="Starring" class="text-danger"></span>
+
+    </div>
+    <div class="form-grouo">
+
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form-control">
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+    </div>
+    <div class="form-grouo">
+
+        <label asp-for="ReleaseDate"></label>
+        <input asp-for="ReleaseDate" class="form-control">
+        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+
+    </div>
+    <button class="btn btn-primary">Submit</button>
+</form>
+
+

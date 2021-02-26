@@ -1,0 +1,59 @@
+@* @model Movie *@
+@{
+    Movie movie = ViewBag.Movie;
+}
+<div>
+<p>hi @ViewBag.CurrentUser.FirstName</p>
+
+
+
+<a href="/dashboard">Dashboard</a>
+
+
+<a href="/logout">Log Out</a>
+
+<h1>@ViewBag.Movie.Title</h1>
+
+<img src="@ViewBag.Movie.ImageUrl" alt="@ViewBag.Movie.Title">
+
+<p>Starring: @ViewBag.Movie.Starring</p>
+<p>Release Date: @ViewBag.Movie.ReleaseDate.ToString("d")</p>
+
+<p>Posted By: @ViewBag.Movie.PostedBy.FirstName</p>
+
+<h3>Fans</h3>
+<ul>
+    @foreach(var like in ViewBag.Movie.Likes)
+    {
+        <li ><a href="/users/@like.UserWhoLikes.UserId">@like.UserWhoLikes.FirstName</li>
+    }
+</ul>
+
+    
+       @if(ViewBag.CurrentUser.UserId==movie.PostedBy.UserId)
+           {
+               <form action="/movies/@movie.MovieId/delete" method="post">
+               <button class="btn btn-warning">Delete</button>
+               </form>
+           }
+           else if(movie.Likes.Any(like => like.UserId == ViewBag.CurrentUser.UserId))
+           {
+               <form action="/movies/@movie.MovieId/likes/delete" method="post">
+                <button class="btn btn-warning">Unlike</button>
+               </form>
+           }
+
+           else
+           {
+               <form action="/movies/@movie.MovieId/likes" method="post">
+                <button class="btn btn-warning">Like</button>
+               </form>
+           }
+
+
+    
+
+           
+
+</div>
+
