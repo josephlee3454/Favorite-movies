@@ -9,7 +9,7 @@ using favoriteMovies.Models;
 namespace favoriteMovies.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210226221554_first")]
+    [Migration("20210226231446_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

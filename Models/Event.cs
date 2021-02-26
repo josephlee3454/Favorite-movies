@@ -11,7 +11,7 @@ namespace favoriteMovies.Models
     {
         public override bool IsValid(object date) 
         {
-            return (DateTime)date < DateTime.Now;
+            return (DateTime)date >= DateTime.Now;
         }
     }
     public class Event

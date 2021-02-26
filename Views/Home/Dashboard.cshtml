@@ -20,14 +20,15 @@
     <th>Participants</th>
     <th>Actions</th> 
   </tr>
-  @foreach (Event item in ViewBag.AllEvents)
-  {
+
+  @foreach (Event item in ViewBag.AllEvents){
+  
    <tr>
        @* <td><a href="/movies/@movie.MovieId">@item.Activity</a></td> *@
        <td>@item.Date.ToString("d")</td>
        <td><a href="/events/@item.EventId" >@item.Title</a></td>
        <td>@item.Duration</td>
-       <td>@item.PostedBy</td>
+       <td>@item.PostedBy.FirstName</td>
        <td>@item.Likes.Count</td>
     
        <td>
@@ -51,9 +52,9 @@
                 <button class="btn btn-warning">Attend</button>
                </form>
            } 
-
+                    
            
-
+  
        </td>
    </tr>   
   }

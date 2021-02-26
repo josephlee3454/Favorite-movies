@@ -143,7 +143,9 @@ namespace favoriteMovies.Controllers
 
             ViewBag.AllEvents = _context
                 .Events.Include(items => items.PostedBy)
-                .Include(item => item.Likes);
+                .Include(item => item.Likes)
+                .OrderByDescending(item => item.CreatedAt);
+
 
 
 
@@ -221,12 +223,13 @@ namespace favoriteMovies.Controllers
 
         [HttpPost("events")]
         public IActionResult CreateMovie(Event eventFromForm)
-        {   if(eventFromForm.Date > DateTime.Now)
+        {   
+            // if(eventFromForm.Date > DateTime.Now)
 
-            {
-                ModelState.AddModelError("ReleaseDate", "Please ensure that the date is in the past!");
+            // {
+            //     ModelState.AddModelError("Date", "Please ensure that the date is in the past!");
 
-            }
+            // }
 
 
             if(ModelState.IsValid)
